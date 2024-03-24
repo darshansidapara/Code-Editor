@@ -4,6 +4,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
   lineNumbers: true,
   autoCloseBrackets: true,
 });
+editor.setSize(Math.max(window.innerWidth * 0.7, 400), "500");
 var width = window.innerWidth;
 var input = document.getElementById ("input")
 var output = document.getElementById ("output" )
@@ -25,20 +26,27 @@ option.addEventListener("change",function(){
     }
 })
 
-var code;
-run.addEventListener("click", async function() {
-    code={
-        code:editor.getValue(),
-        input:input.value,
-        lang:option.value
+run.addEventListener('click', async () => {
+    try {
+        const code = editor.getValue();
+        const input = input.value;
+        const lang = option.value;
+
+        const oData = await fetch('https://darshansidapara.github.io/Code-Editor/compile', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                code,
+                input,
+                lang
+            })
+        });
+
+        const d = await oData.json();
+        output.value = d.output;
+    } catch (error) {
+        console.error(error);
     }
-    var oData = await fetch("http://localhost:8000/complie", {
-        method:"POST",
-        headers:{
-            "Content-type":"application/json"
-        },
-        body:JSON.stringify(code)
-    })
-    var d = await oData.json()
-    output.value = d.output
-})
+});
