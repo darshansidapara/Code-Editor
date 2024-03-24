@@ -17,12 +17,6 @@ option.addEventListener("change",function(){
     else if(option.value == "C"){
         editor.setOption("mode","text/x-csrc")
     }
-    else if(option.value == "JavaScript"){
-        editor.setOption("mode","text/javascript")
-    }
-    else if(option.value == "PHP"){
-        editor.setOption("mode","text/x-php")
-    }
     else{
         editor.setOption("mode","text/x-c++src")
     }
