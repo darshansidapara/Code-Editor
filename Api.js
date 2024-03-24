@@ -7,6 +7,9 @@ compiler: init(options)
 app.use(bodyP.json())
 app.use("/codemirror-5.65.9", express.static("G:/Darshan/College/Project/Code Editor/codemirror-5.65.16"))
 app.get("/", function (req, res) {
+    compiler.flush(function() {
+        console.log("deleted")
+    })
     res.sendFile("G:/Darshan/College/Project/Code Editor/index.html")
 })
 app.post("/compile", function (req, res) {
@@ -16,7 +19,7 @@ app.post("/compile", function (req, res) {
     try {
         if (lang == "Cpp") {
             if (!input) {
-                var envData = { OS: "windows", cmd: "g++" };
+                var envData = { OS: "windows", cmd: "g++", options:{ timeout:10000} };
                 compiler.compileCPP(envData, code, function (data) {
                     if(data.output){
                         res.send(data);
@@ -27,7 +30,7 @@ app.post("/compile", function (req, res) {
                 })
             }
             else {
-                var envData = {OS: "windows" , cmd: "g++" };
+                var envData = {OS: "windows" , cmd: "g++", options:{ timeout:10000}  };
                 conpiler.compileCPPWithInput(envData, code, input, function (data) {
                     if(data.output){
                         res.send(data);
