@@ -17,6 +17,9 @@ option.addEventListener("change",function(){
     else if(option.value == "C"){
         editor.setOption("mode","text/x-csrc")
     }
+    else if(option.value == "C#"){
+        editor.setOption("mode","text/x-c#src")
+    }
     else{
         editor.setOption("mode","text/x-c++src")
     }
